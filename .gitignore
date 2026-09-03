@@ -1,0 +1,23 @@
+# --- Secrets & environment (NEVER commit) ---
+.env
+*.env
+backend/.secrets/
+*.key
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# --- Streamlit ---
+.streamlit/secrets.toml

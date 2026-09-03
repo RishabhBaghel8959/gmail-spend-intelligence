@@ -1,0 +1,54 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      target: backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      # Use Docker's service DNS instead of the host's localhost.
+      MONGODB_URI: mongodb://mongo:27017
+      MONGODB_DB: gmail_spend
+      FRONTEND_ORIGIN: http://localhost:8501
+      BACKEND_URL: http://localhost:8000
+      GOOGLE_REDIRECT_URI: http://localhost:8000/auth/google/callback
+    ports:
+      - "8000:8000"
+    volumes:
+      # Keep the generated Fernet key across container recreation.
+      - backend-secrets:/app/backend/.secrets
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      target: frontend
+    restart: unless-stopped
+    environment:
+      # Used inside the Compose network for dashboard-to-API requests.
+      BACKEND_URL: http://backend:8000
+      # Used in browser redirects; Docker service hostnames are not public DNS.
+      PUBLIC_BACKEND_URL: http://localhost:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  mongo-data:
+  backend-secrets:

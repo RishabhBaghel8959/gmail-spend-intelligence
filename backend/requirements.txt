@@ -1,0 +1,34 @@
+# Web engine
+fastapi
+uvicorn[standard]
+
+# Google auth + Gmail API (read-only)
+google-auth
+google-auth-oauthlib
+google-api-python-client
+
+# LLM extraction
+google-genai
+
+# Data / storage
+motor                 # async MongoDB driver (wraps pymongo)
+pydantic-settings
+pandas
+python-dateutil
+
+# Email parsing
+beautifulsoup4
+lxml
+
+# Security + resilience
+cryptography
+tenacity
+
+# Frontend
+streamlit
+plotly
+requests
+
+# Tests
+pytest
+httpx
