@@ -10,6 +10,10 @@ The application separates the ingestion and analysis engine from the dashboard.
 Gmail, AI, storage, and analytics logic live in the FastAPI backend, while the
 Streamlit frontend presents the results.
 
+## Demo
+
+Watch the project walkthrough on Loom: [Gmail Spend Intelligence demo](https://www.loom.com/share/326c4a1631444e2fb61fa601ec28f123)
+
 ## What it does
 
 - Connects one Gmail account through Google OAuth using `gmail.readonly` only.
